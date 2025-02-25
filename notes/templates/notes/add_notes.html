@@ -1,0 +1,33 @@
+{% extends "helper/base.html" %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'notes:add_notes' %}">
+    {% csrf_token %}
+    <div style="padding: 10px">
+        <label class="form-label"> Заголовок:<br>
+            {{ form.name }}
+        </label>
+        <span>{{ form.errors.name }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label class="form-label"> Текст нотатки:<br>
+            {{ form.description }}
+        </label>
+        <span>{{ form.errors.description }}</span>
+    </div>
+    <div style="padding: 10px">
+        <label> Оберіть теги:<br>
+            <select name="tags"  multiple="multiple" class="form-select">
+                {% for tag in tags %}
+                <option value="{{tag.name}}">{{tag.name}}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <div class="grid" style="padding: 10px">
+        <button type="submit" class="btn btn-success">Зберегти</button>
+        <button type="reset" class="btn btn-danger">Скинути</button>
+    </div>
+</form>
+{% endblock %}

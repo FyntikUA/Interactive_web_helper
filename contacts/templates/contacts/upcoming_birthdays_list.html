@@ -1,0 +1,38 @@
+{% extends 'helper/base.html' %}
+
+{% block content %}
+<html>
+<head>
+    <title>Контакти з майбутніми днями народження</title>
+</head>
+<body>
+    <h1>Контакти з майбутніми днями народження</h1>
+
+    <h2>Вкажіть кількість днів до дня народження</h2>
+    <form method="GET" action="{% url 'contacts:upcoming_birthdays_list' %}">
+        <input type="number" id="days" name="days" value="{{ days }}" min="1" max="365" placeholder="Введіть кількість днів для пошуку...">
+        <button type="submit" class="btn btn-secondary">Показати</button>
+    </form>
+    
+    <hr>
+
+    {% if upcoming_birthdays %}
+        <h3>Контакти з майбутніми днями народження до {{ target_date|date:"d.m.Y" }}</h3>
+        
+
+            {% for item in upcoming_birthdays %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        {{ item.contact.fullname }} - Дата народження: {{ item.birthday_date|date:"d.m.Y" }}
+                        - <a href="{% url 'contacts:edit_contact' item.contact.pk %}" class="btn btn-warning">Змінити</a>
+                        - <a href="{% url 'contacts:delete_contact' item.contact.pk %}" class="btn btn-danger">Видалити</a>
+                        </div>
+                </div>
+            {% endfor %}
+    {% else %}
+        <h3>Немає контактів з майбутніми днями народження до {{ target_date|date:"d.m.Y" }}</h3>
+    {% endif %}
+    
+</body>
+</html>
+{% endblock %}

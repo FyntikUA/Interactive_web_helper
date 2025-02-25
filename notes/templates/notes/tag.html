@@ -1,0 +1,42 @@
+{% extends "helper/base.html" %}
+
+{% block content %}
+<main class="container">
+    <h1>Додавання тегу</h1>
+    <form method="POST" class="form-control">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if messages %}
+        <ul class="messages" style="color: red">
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <button type="submit" class="btn btn-success">Додати тег</button>
+    </form>
+    <h2>Існуючі теги</h2>
+    {% if tags %}
+
+        {% for tag in tags %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-auto">
+                        {{ tag.name }}
+                    </div>
+                        <div class="col-auto ">
+                        <a href="{% url 'notes:delete_tag' tag.id %}" class="btn btn-danger btn-sm" >Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    {% else %}
+    <p>You have no tags yet.</p>
+    {% endif %}
+</main>
+{% endblock %}
+
+
